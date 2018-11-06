@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 
-class HomeScreen extends React.Component {
+class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Settings!',
+  };
+
   render() {
     const { navigation } = this.props;
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
+        <Text>SettingsScreen Screen</Text>
         <Button
           title="Go To Home"
           onPress={() => navigation.push('Home')}
@@ -20,4 +24,4 @@ class HomeScreen extends React.Component {
   }
 }
 
-export { HomeScreen }
+export { SettingsScreen }

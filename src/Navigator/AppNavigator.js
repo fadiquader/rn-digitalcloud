@@ -1,17 +1,25 @@
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 //
-import { HomeScreen } from '../navigation-example/stack/HomeScreen';
+import { HomeScreen } from '../navigation-example/HomeScreen';
+import { DetailsScreen } from '../navigation-example/DetailsScreen';
+import { SettingsScreen } from '../navigation-example/SettingsScreen';
+import { ProfileScreen } from '../navigation-example/ProfileScreen';
 import { TodoList } from '../screens/TodoList';
 
-export const StackNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-    // navigationOptions: ({ navigation }) =>  {
-    //
-    // }
-  },
-  TodoList: TodoList
-}, {
-  initialRouteName: 'Home',
-  // headerMode: 'none'
+
+const HomeStack = createStackNavigator({
+  Home: HomeScreen,
+  Details: DetailsScreen,
 });
+
+const SettingsStack = createStackNavigator({
+  Settings: SettingsScreen,
+  Profile: ProfileScreen,
+});
+
+export default createBottomTabNavigator(
+  {
+    Home: HomeStack,
+    Settings: SettingsStack,
+  }
+);
