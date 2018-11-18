@@ -1,27 +1,21 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TextInput } from 'react-native';
+//
+import { Input } from "../components/Input";
 
-class SettingsScreen extends React.Component {
+class AddPlaceScreen extends React.Component {
   static navigationOptions = {
-    title: 'Settings!',
+    title: 'Add Place!',
   };
 
   render() {
     const { navigation } = this.props;
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>SettingsScreen Screen</Text>
-        <Button
-          title="Go To Home"
-          onPress={() => navigation.push('Home')}
-        />
-        <Button
-          title="Go Back"
-          onPress={() => navigation.popToTop()}
-        />
+      <View style={{ flex: 1 }}>
+        <Input placeholder="Location Name" style={{}}  />
       </View>
     );
   }
 }
 
-export { SettingsScreen }
+export { AddPlaceScreen }
