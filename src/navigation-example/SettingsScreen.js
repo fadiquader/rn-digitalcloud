@@ -3,6 +3,7 @@ import { View, Text, Button, TextInput } from 'react-native';
 //
 import { Input } from "../components/Input";
 import { MyImagePicker } from "../components/MyImagePicker";
+import { PickLocation } from "../components/PickLocation";
 
 class AddPlaceScreen extends React.Component {
   static navigationOptions = {
@@ -27,6 +28,7 @@ class AddPlaceScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <MyImagePicker source={placeImage} onPickImage={this.handlePickImage} />
+        <PickLocation />
         <Input placeholder="Location Name" style={{}}  />
       </View>
     );
