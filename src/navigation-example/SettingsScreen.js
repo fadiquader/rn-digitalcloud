@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, TextInput } from 'react-native';
+import { View, Text, Button, TextInput, ScrollView } from 'react-native';
 //
 import { Input } from "../components/Input";
 import { MyImagePicker } from "../components/MyImagePicker";
@@ -26,11 +26,12 @@ class AddPlaceScreen extends React.Component {
     const { navigation } = this.props;
     const { placeImage } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView
+        >
+        <Input placeholder="Location Name" style={{}}  />
         <MyImagePicker source={placeImage} onPickImage={this.handlePickImage} />
         <PickLocation />
-        <Input placeholder="Location Name" style={{}}  />
-      </View>
+      </ScrollView>
     );
   }
 }
