@@ -5,14 +5,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 //
 import { HomeScreen } from '../navigation-example/HomeScreen';
 import { DetailsScreen } from '../navigation-example/DetailsScreen';
-import { AddPlaceScreen } from '../navigation-example/SettingsScreen';
+import { AddPlaceScreen } from '../navigation-example/AddPlaceScreen';
 import { ProfileScreen } from '../navigation-example/ProfileScreen';
 import { TodoList } from '../screens/TodoList';
 
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Details: DetailsScreen,
+  PlaceDetails: DetailsScreen,
 });
 
 const SettingsStack = createStackNavigator({
@@ -26,7 +26,7 @@ export default createBottomTabNavigator(
     Add: SettingsStack,
   },
   {
-    initialRouteName: 'Add',
+    // initialRouteName: 'Add',
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         const { routeName } = navigation.state;

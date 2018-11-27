@@ -13,7 +13,8 @@ class AddPlaceScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      placeImage: null
+      placeImage: null,
+      placeLocation: null
     }
   }
   handlePickImage = base64 => {
@@ -22,6 +23,13 @@ class AddPlaceScreen extends React.Component {
       placeImage: base64,
     })
   };
+
+  handlePickLocation = coords => {
+    this.setState({
+      placeLocation: coords,
+    })
+  };
+
   render() {
     const { navigation } = this.props;
     const { placeImage } = this.state;
@@ -30,7 +38,7 @@ class AddPlaceScreen extends React.Component {
         >
         <Input placeholder="Location Name" style={{}}  />
         <MyImagePicker source={placeImage} onPickImage={this.handlePickImage} />
-        <PickLocation />
+        <PickLocation onPickLocation={this.handlePickLocation} />
       </ScrollView>
     );
   }

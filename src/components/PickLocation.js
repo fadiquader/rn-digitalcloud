@@ -27,6 +27,7 @@ class PickLocation extends React.Component {
           ...coords
         }
       }));
+      this.props.onPickLocation(coords)
     }
     console.log(`event: `, )
     // this.setState(prev => {
