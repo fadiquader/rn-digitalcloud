@@ -45,16 +45,28 @@ class HomeScreen extends React.Component {
         id: 1,
         name: 'Place#1',
         image: 'http://via.placeholder.com/350x350',
+        location: {
+          latitude: 37.78825,
+          longitude: -122.4324,
+        }
       },
       {
         id: 2,
         name: 'Place#1',
         image: 'http://via.placeholder.com/350x350',
+        location: {
+          latitude: 37.78825,
+          longitude: -122.4324,
+        }
       },
       {
         id: 3,
         name: 'Place#1',
         image: 'http://via.placeholder.com/350x350',
+        location: {
+          latitude: 37.78825,
+          longitude: -122.4324,
+        }
       },
     ]
 
