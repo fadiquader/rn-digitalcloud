@@ -1,10 +1,33 @@
 import * as React from 'react';
 import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native';
+//
+import { getAllPlaces } from '../api';
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Home!',
   };
+
+  state = {
+    places: []
+  }
+
+  componentDidMount() {
+    this.fetchPlaces();
+  }
+
+  fetchPlaces = async () => {
+    try {
+      const { data } = await getAllPlaces();
+      console.log(data.locations)
+      this.setState({
+        places: data.locations,
+      })
+      // alert(JSON.stringify(data))
+    } catch (err) {
+      // err.response
+    }
+  }
 
   renderPlaceItem = ({ item, index }) => {
     const { navigation } = this.props;
@@ -28,51 +51,22 @@ class HomeScreen extends React.Component {
             marginRight: 16,
             borderRadius: 6
           }}
-          source={{ uri: item.image }}
+          source={{ uri: item.picture }}
         />
         <Text>
-          {item.name} {index +1 }
+          {item.name}
         </Text>
       </TouchableOpacity>
     )
   };
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item._id;
 
   render() {
     const { navigation } = this.props;
-    const dummyPlaces = [
-      {
-        id: 1,
-        name: 'Place#1',
-        image: 'http://via.placeholder.com/350x350',
-        location: {
-          latitude: 37.78825,
-          longitude: -122.4324,
-        }
-      },
-      {
-        id: 2,
-        name: 'Place#1',
-        image: 'http://via.placeholder.com/350x350',
-        location: {
-          latitude: 37.78825,
-          longitude: -122.4324,
-        }
-      },
-      {
-        id: 3,
-        name: 'Place#1',
-        image: 'http://via.placeholder.com/350x350',
-        location: {
-          latitude: 37.78825,
-          longitude: -122.4324,
-        }
-      },
-    ]
 
     return (
       <FlatList
-        data={dummyPlaces}
+        data={this.state.places}
         renderItem={this.renderPlaceItem}
         keyExtractor={this._keyExtractor}
       />

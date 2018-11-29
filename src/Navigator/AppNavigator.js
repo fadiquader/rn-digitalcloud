@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 //
 import { HomeScreen } from '../navigation-example/HomeScreen';
@@ -20,7 +20,7 @@ const SettingsStack = createStackNavigator({
   Profile: ProfileScreen,
 });
 
-export default createBottomTabNavigator(
+const AppNavigator =  createBottomTabNavigator(
   {
     Home: HomeStack,
     Add: SettingsStack,
@@ -53,3 +53,5 @@ export default createBottomTabNavigator(
     },
   }
 );
+
+export default createAppContainer(AppNavigator);
