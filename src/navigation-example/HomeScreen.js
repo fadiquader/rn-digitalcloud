@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native';
 //
-import { getAllPlaces } from '../api';
+// import { getAllPlaces } from '../api';
+import { Location } from "../services";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -18,7 +19,7 @@ class HomeScreen extends React.Component {
 
   fetchPlaces = async () => {
     try {
-      const { data } = await getAllPlaces();
+      const { data } = await Location.getAllLocations();
       console.log(data.locations)
       this.setState({
         places: data.locations,

@@ -11,9 +11,9 @@ import {Platform, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 
 import { TodoList } from './src/screens/TodoList';
 import AppContainer from './src/Navigator/AppNavigator';
-
-type Props = {};
-export default class App extends Component<Props> {
+import initAxios from './src/config/axios.config';
+initAxios();
+export default class App extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
