@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { FlatList, View, Text, Image, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
 //
 // import { getAllPlaces } from '../api';
+
 import { Location } from "../services";
 
-class HomeScreen extends React.Component {
+class HomeScreenC extends React.Component {
   static navigationOptions = {
     title: 'Home!',
   };
-
-  state = {
-    places: []
-  }
+  //
+  // state = {
+  //   places: [],
+  //   loading: false,
+  // }
 
   componentDidMount() {
     this.fetchPlaces();
@@ -19,15 +22,22 @@ class HomeScreen extends React.Component {
 
   fetchPlaces = async () => {
     try {
-      const { data } = await Location.getAllLocations();
-      console.log(data.locations)
       this.setState({
-        places: data.locations,
-      })
+        loading: true
+      });
+      const { data } = await Location.getAllLocations();
+      // this.setState({
+      //   places: data.locations,
+      // })
       // alert(JSON.stringify(data))
+      console.log('data ', data)
     } catch (err) {
+      console.log('data ', err.response)
       // err.response
     }
+    // this.setState({
+    //   loading: false
+    // });
   }
 
   renderPlaceItem = ({ item, index }) => {
@@ -63,16 +73,44 @@ class HomeScreen extends React.Component {
   _keyExtractor = (item, index) => item._id;
 
   render() {
-    const { navigation } = this.props;
-
+    const { navigation, placesData } = this.props;
+    console.log(placesData)
+    const footer = placesData.loading ? (
+      <View style={{ justifyItems: 'center', padding: 16 }}>
+        <ActivityIndicator size="large" />
+      </View>
+    ) : null;
     return (
       <FlatList
-        data={this.state.places}
+        data={placesData.places}
         renderItem={this.renderPlaceItem}
         keyExtractor={this._keyExtractor}
+        ListFooterComponent={footer}
       />
     );
   }
 }
 
+const mapStateToProps = ({ places }) => {
+  return {
+    placesData: places
+  }
+};
+
+// function hoc(Com) {
+//   return class extends React.Component {
+//     state = {
+//       dummy: 'sdffds'
+//     }
+//     render() {
+//
+//       return (
+//         <Com dummy={this.state.dummy} />
+//       )
+//     }
+//   }
+// }
+//
+// const DummyHOC = hoc(HomeScreenC)
+const HomeScreen = connect(mapStateToProps,)(HomeScreenC);
 export { HomeScreen }

@@ -19,6 +19,11 @@ class Location {
   static createLocation(data:ILocation) {
     return axios.post('/location/create', data)
   }
+
+  static getLocationById(id) {
+    // const url = '/location/by-id/'+id+
+    return axios.get(`/location/by-id/${id}`)
+  }
 }
 
 export { Location }

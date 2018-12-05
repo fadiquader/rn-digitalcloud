@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Button, TextInput, ScrollView } from 'react-native';
+import { View, Text, Button, TextInput, ScrollView, ActivityIndicator } from 'react-native';
 //
 import { Input } from "../components/Input";
 import { MyImagePicker } from "../components/MyImagePicker";
@@ -17,6 +17,7 @@ class AddPlaceScreen extends React.Component {
       placeImage: null,
       placeLocation: null,
       placeName: null,
+      loading: false
     }
   }
   handlePickImage = base64 => {
@@ -34,6 +35,9 @@ class AddPlaceScreen extends React.Component {
 
   submitPlace = async () => {
     try {
+      this.setState({
+        loading: true
+      })
       const data = {
         name: this.state.placeName,
         picture: this.state.placeImage,
@@ -45,6 +49,9 @@ class AddPlaceScreen extends React.Component {
     } catch (e) {
       alert(e.message)
     }
+    this.setState({
+      loading: false
+    })
   }
   render() {
     const { navigation } = this.props;
@@ -62,7 +69,13 @@ class AddPlaceScreen extends React.Component {
         />
         <MyImagePicker source={placeImage} onPickImage={this.handlePickImage} />
         <PickLocation onPickLocation={this.handlePickLocation} />
-        <Button title="Submit" onPress={this.submitPlace} />
+        {
+          this.state.loading && <ActivityIndicator size="large" />
+        }
+        {
+          !this.state.loading && <Button title="Submit" onPress={this.submitPlace} />
+        }
+
       </ScrollView>
     );
   }
