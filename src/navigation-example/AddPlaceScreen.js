@@ -8,6 +8,7 @@ import { MyImagePicker } from "../components/MyImagePicker";
 import { PickLocation } from "../components/PickLocation";
 import { Location } from "../services";
 import { addPlace } from "../redux/actions/places";
+import { ADD_PLACE_LOADING } from "../redux/actionsTypes";
 
 class AddPlaceScreenC extends React.Component {
   static navigationOptions = {
@@ -20,7 +21,6 @@ class AddPlaceScreenC extends React.Component {
       placeImage: null,
       placeLocation: null,
       placeName: null,
-      loading: false
     }
   }
   handlePickImage = base64 => {
@@ -36,30 +36,17 @@ class AddPlaceScreenC extends React.Component {
     })
   };
 
-  submitPlace = async () => {
-    try {
-      this.setState({
-        loading: true
-      })
-      const data = {
-        _id: `${Math.random()* 10000}`,
-        name: this.state.placeName,
-        picture: this.state.placeImage,
-        location: this.state.placeLocation
-      };
-      this.props.addPlaceAction(data)
-      // const res = await Location.createLocation(data);
-      // console.log(res.data)
-      // alert(JSON.stringify(res.ds))
-    } catch (e) {
-      alert(e.message)
-    }
-    this.setState({
-      loading: false
-    })
-  }
+  submitPlace = () => {
+    const data = {
+      name: this.state.placeName,
+      picture: this.state.placeImage,
+      location: this.state.placeLocation
+    };
+    this.props.addPlaceAction(data)
+  };
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, isLoading } = this.props;
     const { placeImage } = this.state;
     return (
       <ScrollView
@@ -75,16 +62,20 @@ class AddPlaceScreenC extends React.Component {
         <MyImagePicker source={placeImage} onPickImage={this.handlePickImage} />
         <PickLocation onPickLocation={this.handlePickLocation} />
         {
-          this.state.loading && <ActivityIndicator size="large" />
+          isLoading && <ActivityIndicator size="large" />
         }
         {
-          !this.state.loading && <Button title="Submit" onPress={this.submitPlace} />
+          !isLoading && <Button title="Submit" onPress={this.submitPlace} />
         }
 
       </ScrollView>
     );
   }
 }
+
+const mapState = ({ loading }) => ({
+  isLoading: !!loading[ADD_PLACE_LOADING]
+});
 
 const mapDispatch = dispatch => bindActionCreators({
   addPlaceAction: addPlace,
@@ -98,5 +89,5 @@ const mapDispatch = dispatch => bindActionCreators({
 //   }
 // }
 
-const AddPlaceScreen = connect(null, mapDispatch)(AddPlaceScreenC);
+const AddPlaceScreen = connect(mapState, mapDispatch)(AddPlaceScreenC);
 export { AddPlaceScreen }

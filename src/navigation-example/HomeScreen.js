@@ -73,19 +73,19 @@ class HomeScreenC extends React.Component {
   _keyExtractor = (item, index) => item._id;
 
   render() {
-    const { navigation, placesData } = this.props;
-    console.log(placesData)
-    const footer = placesData.loading ? (
-      <View style={{ justifyItems: 'center', padding: 16 }}>
-        <ActivityIndicator size="large" />
-      </View>
-    ) : null;
+    const { navigation, places } = this.props;
+    // console.log(placesData)
+    // const footer = placesData.loading ? (
+    //   <View style={{ justifyItems: 'center', padding: 16 }}>
+    //     <ActivityIndicator size="large" />
+    //   </View>
+    // ) : null;
     return (
       <FlatList
-        data={placesData.places}
+        data={places}
         renderItem={this.renderPlaceItem}
         keyExtractor={this._keyExtractor}
-        ListFooterComponent={footer}
+        ListFooterComponent={null}
       />
     );
   }
@@ -93,7 +93,7 @@ class HomeScreenC extends React.Component {
 
 const mapStateToProps = ({ places }) => {
   return {
-    placesData: places
+    places
   }
 };
 
