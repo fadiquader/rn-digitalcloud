@@ -1,3 +1,4 @@
+import * as actions from '../actionsTypes';
 
 const initialState = {
   loading: false,
@@ -6,6 +7,11 @@ const initialState = {
 
 const placesReducer = (state=initialState, action) => {
   switch (action.type) {
+    case actions.ADD_PLACE:
+      return {
+        ...state,
+        places: [...state.places, action.payload],
+      };
     default:
       return state;
   }

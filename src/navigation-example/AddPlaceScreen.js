@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { View, Text, Button, TextInput, ScrollView, ActivityIndicator } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 //
 import { Input } from "../components/Input";
 import { MyImagePicker } from "../components/MyImagePicker";
 import { PickLocation } from "../components/PickLocation";
 import { Location } from "../services";
+import { addPlace } from "../redux/actions/places";
 
-class AddPlaceScreen extends React.Component {
+class AddPlaceScreenC extends React.Component {
   static navigationOptions = {
     title: 'Add Place!',
   };
@@ -39,12 +42,14 @@ class AddPlaceScreen extends React.Component {
         loading: true
       })
       const data = {
+        _id: `${Math.random()* 10000}`,
         name: this.state.placeName,
         picture: this.state.placeImage,
         location: this.state.placeLocation
       };
-      const res = await Location.createLocation(data);
-      console.log(res.data)
+      this.props.addPlaceAction(data)
+      // const res = await Location.createLocation(data);
+      // console.log(res.data)
       // alert(JSON.stringify(res.ds))
     } catch (e) {
       alert(e.message)
@@ -81,4 +86,17 @@ class AddPlaceScreen extends React.Component {
   }
 }
 
+const mapDispatch = dispatch => bindActionCreators({
+  addPlaceAction: addPlace,
+}, dispatch);
+
+
+// {
+//   return {
+//     addPlaceAction: payload => dispatch(addPlace(payload)),
+//
+//   }
+// }
+
+const AddPlaceScreen = connect(null, mapDispatch)(AddPlaceScreenC);
 export { AddPlaceScreen }
