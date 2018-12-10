@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FlatList, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 //
-// import { getAllPlaces } from '../api';
-
-import { Location } from "../services";
+import { fetchPlaces } from '../redux/actions/places';
+import * as actions from '../redux/actionsTypes';
 
 class HomeScreenC extends React.Component {
   static navigationOptions = {
@@ -17,27 +17,7 @@ class HomeScreenC extends React.Component {
   // }
 
   componentDidMount() {
-    this.fetchPlaces();
-  }
-
-  fetchPlaces = async () => {
-    try {
-      this.setState({
-        loading: true
-      });
-      const { data } = await Location.getAllLocations();
-      // this.setState({
-      //   places: data.locations,
-      // })
-      // alert(JSON.stringify(data))
-      console.log('data ', data)
-    } catch (err) {
-      console.log('data ', err.response)
-      // err.response
-    }
-    // this.setState({
-    //   loading: false
-    // });
+    this.props.fetchPlaces();
   }
 
   renderPlaceItem = ({ item, index }) => {
@@ -73,30 +53,33 @@ class HomeScreenC extends React.Component {
   _keyExtractor = (item, index) => item._id;
 
   render() {
-    const { navigation, places } = this.props;
+    const { navigation, places, isLoading } = this.props;
     // console.log(placesData)
-    // const footer = placesData.loading ? (
-    //   <View style={{ justifyItems: 'center', padding: 16 }}>
-    //     <ActivityIndicator size="large" />
-    //   </View>
-    // ) : null;
+    const footer = isLoading ? (
+      <View style={{ justifyItems: 'center', padding: 16 }}>
+        <ActivityIndicator size="large" />
+      </View>
+    ) : null;
     return (
       <FlatList
         data={places}
         renderItem={this.renderPlaceItem}
         keyExtractor={this._keyExtractor}
-        ListFooterComponent={null}
+        ListFooterComponent={footer}
       />
     );
   }
 }
 
-const mapStateToProps = ({ places }) => {
+const mapStateToProps = ({ places, loading }) => {
   return {
-    places
+    places,
+    isLoading: !!loading[actions.FETCH_PLACES_LOADING]
   }
 };
-
+const mapDispatch  = dispatch => bindActionCreators({
+  fetchPlaces,
+}, dispatch)
 // function hoc(Com) {
 //   return class extends React.Component {
 //     state = {
@@ -112,5 +95,5 @@ const mapStateToProps = ({ places }) => {
 // }
 //
 // const DummyHOC = hoc(HomeScreenC)
-const HomeScreen = connect(mapStateToProps,)(HomeScreenC);
+const HomeScreen = connect(mapStateToProps, mapDispatch)(HomeScreenC);
 export { HomeScreen }

@@ -36,3 +36,9 @@ export const addPlace = payload => {
   }
 };
 
+export const fetchPlaces = () => {
+  return {
+    type: actions.FETCH_PLACES,
+  }
+};
+
