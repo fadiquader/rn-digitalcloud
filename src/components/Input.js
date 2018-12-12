@@ -8,7 +8,7 @@ export const Input = props => {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: '#ff4d4c',
+    borderColor: '#8d8d8d',
     padding: 16,
     borderRadius: 100,
     fontSize: 20,

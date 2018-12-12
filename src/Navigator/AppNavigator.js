@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+  createSwitchNavigator,
+  createAppContainer
+} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 //
 import { HomeScreen } from '../navigation-example/HomeScreen';
@@ -8,6 +13,7 @@ import { DetailsScreen } from '../navigation-example/DetailsScreen';
 import { AddPlaceScreen } from '../navigation-example/AddPlaceScreen';
 import { ProfileScreen } from '../navigation-example/ProfileScreen';
 import { TodoList } from '../screens/TodoList';
+import {LoginScreen} from "../navigation-example/LoginScreen";
 
 
 const HomeStack = createStackNavigator({
@@ -20,7 +26,7 @@ const SettingsStack = createStackNavigator({
   Profile: ProfileScreen,
 });
 
-const AppNavigator =  createBottomTabNavigator(
+const AppScreens =  createBottomTabNavigator(
   {
     Home: HomeStack,
     Add: SettingsStack,
@@ -53,5 +59,16 @@ const AppNavigator =  createBottomTabNavigator(
     },
   }
 );
+const AuthScreens = createStackNavigator({
+  Login: LoginScreen
+}, {
+  defaultNavigationOptions: {
+    // headerTransparent: true,
+  }
+})
+const AppNavigator = createSwitchNavigator({
+  Auth: AuthScreens,
+  App: AppScreens,
+});
 
 export default createAppContainer(AppNavigator);

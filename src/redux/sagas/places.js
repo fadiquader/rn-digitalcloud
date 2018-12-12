@@ -1,4 +1,4 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 //
 import { Location } from "../../services";
 import * as actions from '../actionsTypes';
@@ -24,6 +24,5 @@ function* fetchPlaces(action) {
 }
 
 export default function* placesSaga() {
-  console.log('placesSaga')
   yield takeLatest(actions.FETCH_PLACES, fetchPlaces);
 }
