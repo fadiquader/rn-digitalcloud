@@ -12,6 +12,7 @@ import { HomeScreen } from '../navigation-example/HomeScreen';
 import { DetailsScreen } from '../navigation-example/DetailsScreen';
 import { AddPlaceScreen } from '../navigation-example/AddPlaceScreen';
 import { ProfileScreen } from '../navigation-example/ProfileScreen';
+import { LaunchScreen } from '../navigation-example/LaunchScreen';
 import { TodoList } from '../screens/TodoList';
 import {LoginScreen} from "../navigation-example/LoginScreen";
 
@@ -65,8 +66,10 @@ const AuthScreens = createStackNavigator({
   defaultNavigationOptions: {
     // headerTransparent: true,
   }
-})
+});
+
 const AppNavigator = createSwitchNavigator({
+  Launch: LaunchScreen,
   Auth: AuthScreens,
   App: AppScreens,
 });

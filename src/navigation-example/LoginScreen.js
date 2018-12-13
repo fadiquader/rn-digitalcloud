@@ -12,10 +12,23 @@ class LoginScreenC extends React.Component {
   };
   state = {
     email: '',
-    password: ''
+    password: '',
+    loading: false
+  };
+  toggleLoading = () => {
+    this.setState(prev => ({
+      loading: !prev.loading,
+    }))
+  }
+  handleLogin = () => {
+    this.props.login({
+      ...this.state,
+      toggleLoading: this.toggleLoading,
+    })
   }
   render() {
-    const { navigation } = this.props;
+    const { loading } = this.state;
+
     return (
       <View style={{ flex: 1, backgroundColor: '#c4c4c4', justifyContent: 'center' }}>
         <View>
@@ -37,8 +50,9 @@ class LoginScreenC extends React.Component {
           </View>
           <View>
             <Button
+              disabled={loading}
               title="Login"
-              onPress={() => this.props.login(this.state)}
+              onPress={this.handleLogin}
             />
           </View>
         </View>

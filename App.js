@@ -14,6 +14,7 @@ import { TodoList } from './src/screens/TodoList';
 import AppContainer from './src/Navigator/AppNavigator';
 import initAxios from './src/config/axios.config';
 import configureStore from './src/redux/store';
+import NavigationService from "./src/Navigator/NavigatorService";
 
 initAxios();
 
@@ -25,7 +26,11 @@ export default class App extends Component {
       <Provider store={store}>
         <SafeAreaView style={styles.container}>
           {/*<TodoList data={'dataaaaa'} />*/}
-          <AppContainer />
+          <AppContainer
+            ref={navigatorRef => {
+              NavigationService.setTopLevelNavigator(navigatorRef);
+            }}
+          />
         </SafeAreaView>
       </Provider>
     );

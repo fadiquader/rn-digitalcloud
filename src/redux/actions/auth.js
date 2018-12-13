@@ -6,3 +6,9 @@ export const login = payload => {
     payload
   }
 };
+
+export const checkAuth = () => {
+  return {
+    type: actions.CHECK_AUTH,
+  }
+};

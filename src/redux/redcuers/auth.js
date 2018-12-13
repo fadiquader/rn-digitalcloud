@@ -3,7 +3,9 @@ import * as actions from '../actionsTypes';
 const initialState = {
   user: {
     firstName: '',
-    email: ''
+    lastName: '',
+    email: '',
+    _id: ''
   },
   token: ''
 };

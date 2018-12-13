@@ -9,3 +9,5 @@ export const SET_LOADING = 'SET_LOADING';
 
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const HANDLE_AUTH = 'HANDLE_AUTH';
+export const CHECK_AUTH = 'CHECK_AUTH';
