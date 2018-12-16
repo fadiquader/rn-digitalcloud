@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
+// import Icon from 'react-native-vector-icons/Ionicons';
 import {
   createStackNavigator,
   createBottomTabNavigator,
@@ -15,11 +16,21 @@ import { ProfileScreen } from '../navigation-example/ProfileScreen';
 import { LaunchScreen } from '../navigation-example/LaunchScreen';
 import { TodoList } from '../screens/TodoList';
 import {LoginScreen} from "../navigation-example/LoginScreen";
+import {Logout} from "../containers/Logout";
 
+
+
+// const Logout = connect()
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   PlaceDetails: DetailsScreen,
+}, {
+  defaultNavigationOptions: ({ navigation }) => {
+    return {
+      headerRight: <Logout />
+    }
+  }
 });
 
 const SettingsStack = createStackNavigator({

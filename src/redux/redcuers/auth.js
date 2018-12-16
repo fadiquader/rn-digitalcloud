@@ -12,6 +12,10 @@ const initialState = {
 
 const authReducer = (state=initialState, action) => {
   switch (action.type) {
+    case actions.LOGOUT:
+      return {
+        ...initialState,
+      };
     default:
       return state
   }

@@ -45,6 +45,7 @@ function* handleAuthAsync(action) {
 function* autoLoginAsync() {
   try {
     const token = yield AsyncStorage.getItem('@places:token');
+
     // console.log('token ', token)
     if(!token) throw new Error('No Token');
     setToken(token);
@@ -53,8 +54,18 @@ function* autoLoginAsync() {
     yield NavigatorService.navigate('Auth');
   }
 }
+
+function* logoutAsync() {
+  try {
+    yield AsyncStorage.removeItem('@places:token');
+    yield NavigatorService.navigate('Auth');
+  } catch (e) {
+
+  }
+}
 export default function* authSaga() {
   yield takeLatest(actions.LOGIN, doLoginAsync);
   yield takeLatest(actions.HANDLE_AUTH, handleAuthAsync);
   yield takeLatest(actions.CHECK_AUTH, autoLoginAsync);
+  yield takeLatest(actions.LOGOUT, logoutAsync);
 }

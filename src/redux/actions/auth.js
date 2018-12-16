@@ -12,3 +12,9 @@ export const checkAuth = () => {
     type: actions.CHECK_AUTH,
   }
 };
+
+export const logout = () => {
+  return {
+    type: actions.LOGOUT,
+  }
+};
