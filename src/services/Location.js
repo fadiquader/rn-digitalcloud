@@ -24,6 +24,10 @@ class Location {
     // const url = '/location/by-id/'+id+
     return axios.get(`/location/by-id/${id}`)
   }
+
+  static deleteLocationById(id) {
+    return axios.delete(`/location/delete/${id}`);
+  }
 }
 
 export { Location }

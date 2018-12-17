@@ -1,15 +1,18 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   View, Text, Button, StyleSheet,
   Image, TouchableOpacity, ScrollView,
-  ActivityIndicator
+  ActivityIndicator, Alert
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 //
 import { Location } from "../services";
+import { deletePlace } from "../redux/actions/places";
 
-class DetailsScreen extends React.Component {
+class DetailsScreenC extends React.Component {
   state = {
     loading: true,
     data: {
@@ -30,6 +33,17 @@ class DetailsScreen extends React.Component {
       title: params.name,
       headerRight: (
         <TouchableOpacity
+          onPress={() => {
+            Alert.alert(
+              '',
+              'Are you sure?',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'OK', onPress: () => params.deletePlace(params._id)},
+              ],
+              { cancelable: false }
+            )
+          }}
           style={{
             paddingHorizontal: 16,
           }}
@@ -40,6 +54,12 @@ class DetailsScreen extends React.Component {
     }
   };
   componentDidMount() {
+    const { navigation } = this.props;
+    const params = navigation.state.params;
+    navigation.setParams({
+      ...params,
+      deletePlace: this.props.deletePlace,
+    });
     this.getPlaceData();
   }
   getPlaceData = async () => {
@@ -132,4 +152,9 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapDispatch = dispatch => bindActionCreators({
+  deletePlace,
+}, dispatch);
+
+const DetailsScreen = connect(null, mapDispatch)(DetailsScreenC);
 export { DetailsScreen }

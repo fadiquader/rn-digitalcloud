@@ -3,8 +3,9 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import { Location } from "../../services";
 import * as actions from '../actionsTypes';
 import { setLoading } from "../actions/loading";
+import NavigatorService from "../../Navigator/NavigatorService";
 
-function* fetchPlaces(action) {
+function* fetchPlaces() {
   try {
     // action.payload
     yield put(setLoading({
@@ -12,7 +13,6 @@ function* fetchPlaces(action) {
       value: true
     }));
     const res = yield call(Location.getAllLocations);
-    console.log(res.data)
     yield put({type: actions.FETCH_PLACESS_SUCCESS, payload: res.data.locations});
   } catch (e) {
     // yield put({type: "USER_FETCH_FAILED", message: e.message});
@@ -23,6 +23,20 @@ function* fetchPlaces(action) {
   }))
 }
 
+function* deletePlace(action) {
+  const { id } = action.payload;
+  try {
+    yield call(Location.deleteLocationById, id);
+    yield NavigatorService.goBack();
+    yield put({
+      type: actions.DELETE_PLACE_SUCCESS,
+      payload: action.payload,
+    })
+  } catch (e) {
+    alert(e.message)
+  }
+}
 export default function* placesSaga() {
   yield takeLatest(actions.FETCH_PLACES, fetchPlaces);
+  yield takeLatest(actions.DELETE_PLACE, deletePlace);
 }

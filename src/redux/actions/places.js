@@ -42,3 +42,13 @@ export const fetchPlaces = () => {
   }
 };
 
+export function deletePlace(id) {
+  return {
+    type: actions.DELETE_PLACE,
+    payload: {
+      id
+    }
+  }
+}
+
+
