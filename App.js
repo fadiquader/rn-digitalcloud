@@ -24,8 +24,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SafeAreaView style={styles.container}>
-          {/*<TodoList data={'dataaaaa'} />*/}
+        <SafeAreaView style={styles.container} forceInset={{'top': 'never'}}>
           <AppContainer
             ref={navigatorRef => {
               NavigationService.setTopLevelNavigator(navigatorRef);

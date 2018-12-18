@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Animated, Easing } from 'react-native';
 // import Icon from 'react-native-vector-icons/Ionicons';
 import {
   createStackNavigator,
@@ -19,7 +19,14 @@ import {LoginScreen} from "../navigation-example/LoginScreen";
 import {Logout} from "../containers/Logout";
 
 
-
+const defualtHeaderConfig = {
+  defaultNavigationOptions: ({ navigation }) => {
+    return {
+      headerForceInset: { top: 'never', bottom: 'never' },
+      // gesturesEnabled: false,
+    }
+  },
+}
 // const Logout = connect()
 
 const HomeStack = createStackNavigator({
@@ -28,14 +35,61 @@ const HomeStack = createStackNavigator({
 }, {
   defaultNavigationOptions: ({ navigation }) => {
     return {
-      headerRight: <Logout />
+      headerRight: <Logout />,
+      ...defualtHeaderConfig.defaultNavigationOptions({ navigation })
+      // headerForceInset: { top: 'never', bottom: 'never' },
+      // gesturesEnabled: false,
     }
-  }
+  },
+  // mode: 'modal',
+  // // custom transition
+  // transitionConfig: () => ({
+  //   transitionSpec: {
+  //     duration: 300,
+  //     easing: Easing.out(Easing.poly(4)),
+  //     timing: Animated.timing,
+  //   },
+  //   screenInterpolator: sceneProps => {
+  //     const { layout, position, scene } = sceneProps;
+  //     const { index } = scene;
+  //
+  //     const height = layout.initHeight;
+  //     const translateY = position.interpolate({
+  //       inputRange: [index - 1, index, index + 1],
+  //       outputRange: [height, 0, 0],
+  //     });
+  //
+  //     const opacity = position.interpolate({
+  //       inputRange: [index - 1, index - 0.99, index],
+  //       outputRange: [0, 1, 1],
+  //     });
+  //
+  //     return { opacity, transform: [{ translateY }] };
+  //   },
+  // }),
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      return <Icon name="ios-home" size={horizontal ? 20 : 25} color={tintColor} />;
+    },
+    tabBarLabel: 'Home',
+  }),
 });
 
 const SettingsStack = createStackNavigator({
   Settings: AddPlaceScreen,
   Profile: ProfileScreen,
+}, {
+  defaultNavigationOptions: ({ navigation }) => {
+    return {
+      ...defualtHeaderConfig.defaultNavigationOptions({ navigation })
+    }
+  },
+  navigationOptions: ({ navigation }) => ({
+    tabBarIcon: ({ focused, horizontal, tintColor }) => {
+      return <Icon name="ios-add" size={horizontal ? 20 : 25} color={tintColor} />;
+    },
+    tabBarLabel: 'Add'
+  }),
 });
 
 const AppScreens =  createBottomTabNavigator(
@@ -44,28 +98,10 @@ const AppScreens =  createBottomTabNavigator(
     Add: SettingsStack,
   },
   {
-    // initialRouteName: 'Add',
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = `ios-home`;
-        }
-        else if (routeName === 'Add') {
-          iconName = `ios-add`;
-        }
-
-        // You can return any component that you like here! We usually use an
-        // icon component from react-native-vector-icons
-        return <Icon name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
-      },
-      tabBarLabel: navigation.state.routeName === 'Home' ? 'Main' : 'Add'
-    }),
     // tabBarComponent: TouchableOpacity,
     tabBarOptions: {
-      activeTintColor: 'blue',
-      inactiveTintColor: 'red',
+      activeTintColor: '#ff4d4c',
+      inactiveTintColor: '#2d2d2d',
       // showLabel: false
       // showIcon: false
     },
@@ -74,15 +110,12 @@ const AppScreens =  createBottomTabNavigator(
 const AuthScreens = createStackNavigator({
   Login: LoginScreen
 }, {
-  defaultNavigationOptions: {
-    // headerTransparent: true,
-  }
 });
 
 const AppNavigator = createSwitchNavigator({
   Launch: LaunchScreen,
   Auth: AuthScreens,
   App: AppScreens,
-});
+}, );
 
 export default createAppContainer(AppNavigator);
