@@ -2,19 +2,21 @@ import * as React from 'react';
 import { FlatList, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import debounce from 'lodash.debounce';
 //
 import { fetchPlaces } from '../redux/actions/places';
 import * as actions from '../redux/actionsTypes';
+import {Input} from "../components/Input";
+import {TextWithBold} from "../components/TextWithBold";
 
 class HomeScreenC extends React.Component {
   static navigationOptions = {
     title: 'Home!',
   };
   //
-  // state = {
-  //   places: [],
-  //   loading: false,
-  // }
+  state = {
+    searchText: '',
+  }
 
   componentDidMount() {
     this.props.fetchPlaces();
@@ -44,28 +46,46 @@ class HomeScreenC extends React.Component {
           }}
           source={{ uri: item.picture }}
         />
-        <Text>
-          {item.name}
-        </Text>
+        <TextWithBold value={item.name} filterValue={this.state.searchText} />
       </TouchableOpacity>
     )
   };
+
+  handleSearch = debounce((txt) => {
+    this.setState({
+      searchText: txt
+    })
+  }, 300);
+
+  renderHeader = () => {
+    return (
+      <View>
+        <Input
+          placeholder="search"
+          onChangeText={this.handleSearch}
+        />
+      </View>
+    )
+  }
   _keyExtractor = (item, index) => item._id;
 
   render() {
     const { navigation, places, isLoading } = this.props;
     // console.log(placesData)
+    const { searchText } = this.state;
     const footer = isLoading ? (
       <View style={{ justifyItems: 'center', padding: 16 }}>
         <ActivityIndicator size="large" />
       </View>
     ) : null;
+    const data = places.filter(place => searchText ? place.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 : true);
     return (
       <FlatList
-        data={places}
+        data={data}
         renderItem={this.renderPlaceItem}
         keyExtractor={this._keyExtractor}
         ListFooterComponent={footer}
+        ListHeaderComponent={this.renderHeader}
       />
     );
   }
