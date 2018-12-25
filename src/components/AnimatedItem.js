@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Animated, Dimensions, Easing,
+  Animated, Dimensions, Easing, StyleSheet,
   PanResponder, TouchableOpacity, Text, View
 } from 'react-native';
 
@@ -87,11 +87,43 @@ export class AnimatedItem extends React.Component {
     });
     // console.log(this.panAnimatedVal.getLayout())
     const panLayout = this.panAnimatedVal.getLayout()
+    console.log(panLayout.left)
+    const maxX = width / 2;
+    const animatedWidth = Animated.multiply(panLayout.left, -1).interpolate({
+      inputRange: [-maxX, 0, maxX],
+      outputRange: [0, 0, maxX],
+      extrapolateRight: 'clamp',
+    });
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container} onLayout={this.onLayout}>
+        <Animated.View style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          zIndex: 1,
+          backgroundColor: '#f00',
+          width: animatedWidth,
+          // flex: 1,
+          height: '100%',
+          overflow: 'hidden',
+        }}>
+          <TouchableOpacity
+            onPress={() => alert('Delete Item')}
+            style={{
+              flex: 1, height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            <Text numberOfLines={1}>Delete</Text>
+          </TouchableOpacity>
+        </Animated.View>
         <Animated.View
           style={[
             {
+              // position: 'absolute',
+              // right: 0,
+              // top: 0,
+              // zIndex: 2,
               opacity: this.animatedVal,
               transform: [
                 {
@@ -116,26 +148,24 @@ export class AnimatedItem extends React.Component {
             {this.props.children}
           </Animated.View>
         </Animated.View>
-        <Animated.View style={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          zIndex: 1,
-          backgroundColor: '#f00',
-          width: Animated.multiply(panLayout.left, -1),
-          height: '100%',
-          overflow: 'hidden',
-        }}>
-          <TouchableOpacity
-            style={{
-              flex: 1, height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-            <Text numberOfLines={1}>Delete</Text>
-          </TouchableOpacity>
-        </Animated.View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // As of RN 0.29 flex: 1 is causing all rows to be the same height
+    // flex: 1
+  },
+  hidden: {
+    zIndex: 1,
+    bottom: 0,
+    left: 0,
+    overflow: 'hidden',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
+});
+
