@@ -85,9 +85,7 @@ export class AnimatedItem extends React.Component {
       inputRange: [0, 1],
       outputRange: [-width, 0]
     });
-    // console.log(this.panAnimatedVal.getLayout())
-    const panLayout = this.panAnimatedVal.getLayout()
-    console.log(panLayout.left)
+    const panLayout = this.panAnimatedVal.getLayout();
     const maxX = width / 2;
     const animatedWidth = Animated.multiply(panLayout.left, -1).interpolate({
       inputRange: [-width, 0, maxX],
